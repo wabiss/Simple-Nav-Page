@@ -29,11 +29,12 @@ const SEARCH_CATEGORIES = [
     label: '社区',
     icon: '💬',
     engines: [
-      { name: 'GitHub',  icon: '🐱', url: 'https://github.com/search?q=',                           domain: 'github.com' },
-      { name: '微博',    icon: '🌊', url: 'https://s.weibo.com/weibo?q=',                            domain: 'weibo.com' },
-      { name: '知乎',    icon: '🔵', url: 'https://www.zhihu.com/search?q=',                         domain: 'zhihu.com' },
-      { name: '豆瓣',    icon: '🟢', url: 'https://www.douban.com/search?q=',                        domain: 'douban.com' },
-      { name: '公众号',  icon: '💚', url: 'https://weixin.sogou.com/weixin?type=2&query=',           domain: 'weixin.sogou.com' },
+      { name: 'GitHub',  icon: '🐱', url: 'https://github.com/search?q=',                 domain: 'github.com' },
+      { name: '微博',    icon: '🌊', url: 'https://s.weibo.com/weibo?q=',                  domain: 'weibo.com' },
+      { name: '知乎',    icon: '🔵', url: 'https://www.zhihu.com/search?q=',               domain: 'zhihu.com' },
+      { name: '豆瓣',    icon: '🟢', url: 'https://www.douban.com/search?q=',              domain: 'douban.com' },
+      { name: '贴吧',    icon: '🟠', url: 'https://tieba.baidu.com/f/search/res?qw=',      domain: 'tieba.baidu.com' },
+      { name: 'Reddit',  icon: '🔴', url: 'https://www.reddit.com/search/?q=',             domain: 'reddit.com' },
     ]
   },
   {
