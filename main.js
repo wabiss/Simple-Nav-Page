@@ -39,13 +39,14 @@ window.doSearch = doSearch;
 
 /* ── 站内筛选 ── */
 function filterLinks() {
-  const query = document.getElementById('localFilter').value.toLowerCase().trim();
+  // 修改这里：改为获取 searchInput 的值
+  const query = document.getElementById('searchInput').value.toLowerCase().trim();
 
   document.querySelectorAll('.card').forEach(card => {
     if (!query) {
       card.classList.remove('hidden');
     } else {
-      const title   = card.querySelector('.title')?.innerText.toLowerCase() ?? '';
+      const title = card.querySelector('.title')?.innerText.toLowerCase() ?? '';
       const datadesc = (card.dataset.desc ?? '').toLowerCase();
       card.classList.toggle('hidden', !title.includes(query) && !datadesc.includes(query));
     }
