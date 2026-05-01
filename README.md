@@ -6,7 +6,7 @@
 
 ## ✨ 特点
 
-* 🚀 **无需服务器**：支持 GitHub Pages / Cloudflare Pages / Worker 部署
+* 🚀 **无需服务器**：支持 GitHub Pages / Cloudflare Pages 部署
 
 * 🧩 **极简配置**：只需修改少量文件即可完成自定义
 
