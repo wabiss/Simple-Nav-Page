@@ -247,11 +247,15 @@ h1::after {
   display: flex;
   align-items: center;
   gap: 6px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;          /* ← 改这里：禁止换行 */
   justify-content: center;
   max-width: 700px;
   width: 100%;
+  overflow-x: auto;           /* ← 新增：按钮过多时横向滚动 */
+  scrollbar-width: none;      /* Firefox 隐藏滚动条 */
+  -ms-overflow-style: none;   /* IE 隐藏滚动条 */
 }
+.engine-list::-webkit-scrollbar { display: none; } /* Chrome/Safari 隐藏滚动条 */
 
 .engine-btn {
   display: flex;
@@ -473,6 +477,10 @@ h1::after {
 }
 
 @media (max-width: 480px) {
+  .engine-list {
+    flex-wrap: wrap;
+    overflow-x: unset;
+  }
   .container { padding: 0.75rem; }
   .header-area { gap: 8px; margin-bottom: 1rem; }
   .header-icon { font-size: 1.3rem; }
