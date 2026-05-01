@@ -20,7 +20,7 @@ const SEARCH_CATEGORIES = [
       { name: 'Brave',  icon: '🦁', url: 'https://search.brave.com/search?q=',    domain: 'search.brave.com' },
       { name: '搜狗',   icon: '🐶', url: 'https://www.sogou.com/web?query=',      domain: 'sogou.com' },
       { name: 'Bing',   icon: '🔷', url: 'https://www.bing.com/search?q=',        domain: 'bing.com' },
-      { name: 'DuckDuckGo', icon: '🦆', url: 'https://duckduckgo.com/?q=', domain: '[duckduckgo.com](http://duckduckgo.com)' },
+      { name: 'DuckDuckGo', icon: '🦆', url: 'https://duckduckgo.com/?q=',        domain: 'duckduckgo.com' },
       { name: '360',    icon: '🟢', url: 'https://www.so.com/s?q=',               domain: 'so.com' },
       { name: '夸克',   icon: '⚡', url: 'https://www.quark.cn/s?q=',             domain: 'quark.cn' },
     ]
