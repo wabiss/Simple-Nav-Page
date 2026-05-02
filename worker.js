@@ -9,10 +9,11 @@ export default {
 
     const host = parts.shift();
 
-    // ✅ 白名单（只允许这两个）
+    // ✅ 白名单（只允许这三个）
     const ALLOW = [
       "bing.img.run",
       "icons.duckduckgo.com"
+      "www.google.com"
     ];
 
     if (!ALLOW.includes(host)) {
