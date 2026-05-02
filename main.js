@@ -2,9 +2,33 @@
    王五导航 · main.js
    =========================== */
 
-const FAVICON_API = 'https://icons.duckduckgo.com/ip3/';
-const BG_API      = 'https://bing.img.run/rand.php?t=';
-const LINKS_FILE  = 'links.json';
+// ── 图标 & 背景 配置 ────────────────────────────────────────
+// 【1】切换图标源：'google' 或 'duckduckgo'
+const FAVICON_PROVIDER = 'duckduckgo';
+
+// 【2】代理前缀：不需要代理就留空 ''，需要就填你的代理地址（末尾不加斜杠）
+const PROXY = '';
+// const PROXY = ''; // ← 不走代理时改成这行
+
+// ── 内部：拼接带代理的完整 URL ──
+function withProxy(originUrl) {
+  if (!PROXY) return originUrl;
+  // 去掉协议头，拼在代理后面
+  return PROXY + '/' + originUrl.replace(/^https?:\/\//, '');
+}
+
+function buildFaviconUrl(domain) {
+  if (!domain) return DEFAULT_ICON;
+  if (FAVICON_PROVIDER === 'google')
+    return withProxy(`https://www.google.com/s2/favicons?sz=64&domain=${domain}`);
+  if (FAVICON_PROVIDER === 'duckduckgo')
+    return withProxy(`https://icons.duckduckgo.com/ip3/${domain}.ico`); 
+  return DEFAULT_ICON;
+}
+// ────────────────────────────────────────────────────────────
+
+const BG_API     = withProxy('https://bing.img.run/rand.php') + '?t=';
+const LINKS_FILE = 'links.json';
 
 const DEFAULT_ICON = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PGNpcmNsZSBjeD0iMTIiIGN5PSIxMiIgcj0iMTAiPjwvY2lyY2xlPjxwYXRoIGQ9Ik0yIDEyaDIwIj48L3BhdGg+PHBhdGggZD0iTTEyIDJhMTUuMyAxNS4zIDAgMCAxIDQgMTAgMTUuMyAxNS4zIDAgMCAxLTQgMTAgMTUuMyAxNS4zIDAgMCAxLTQtMTAgMTUuMyAxNS4zIDAgMCAxIDQtMTB6Ij48L3BhdGg+PC9zdmc+';
 
@@ -15,14 +39,14 @@ const SEARCH_CATEGORIES = [
     label: '引擎',
     icon: '🔍',
     engines: [
-      { name: '百度',   icon: '🔵', url: 'https://www.baidu.com/s?wd=',           domain: 'baidu.com' },
-      { name: 'Google', icon: '🌐', url: 'https://www.google.com/search?q=',      domain: 'google.com' },
-      { name: 'Brave',  icon: '🦁', url: 'https://search.brave.com/search?q=',    domain: 'search.brave.com' },
-      { name: '搜狗',   icon: '🐶', url: 'https://www.sogou.com/web?query=',      domain: 'sogou.com' },
-      { name: 'Bing',   icon: '🔷', url: 'https://www.bing.com/search?q=',        domain: 'bing.com' },
-      { name: 'DuckDuckGo', icon: '🦆', url: 'https://duckduckgo.com/?q=',        domain: 'duckduckgo.com' },
-      { name: '360',    icon: '🟢', url: 'https://www.so.com/s?q=',               domain: 'so.com' },
-      { name: '夸克',   icon: '⚡', url: 'https://www.quark.cn/s?q=',             domain: 'quark.cn' },
+      { name: '百度',       icon: '🔵', url: 'https://www.baidu.com/s?wd=',           domain: 'baidu.com' },
+      { name: 'Google',     icon: '🌐', url: 'https://www.google.com/search?q=',      domain: 'google.com' },
+      { name: 'Brave',      icon: '🦁', url: 'https://search.brave.com/search?q=',    domain: 'search.brave.com' },
+      { name: '搜狗',       icon: '🐶', url: 'https://www.sogou.com/web?query=',      domain: 'sogou.com' },
+      { name: 'Bing',       icon: '🔷', url: 'https://www.bing.com/search?q=',        domain: 'bing.com' },
+      { name: 'DuckDuckGo', icon: '🦆', url: 'https://duckduckgo.com/?q=',            domain: 'duckduckgo.com' },
+      { name: '360',        icon: '🟢', url: 'https://www.so.com/s?q=',               domain: 'so.com' },
+      { name: '夸克',       icon: '⚡', url: 'https://www.quark.cn/s?q=',             domain: 'quark.cn' },
     ]
   },
   {
@@ -30,12 +54,12 @@ const SEARCH_CATEGORIES = [
     label: '社区',
     icon: '💬',
     engines: [
-      { name: 'GitHub',  icon: '🐱', url: 'https://github.com/search?q=',                 domain: 'github.com' },
-      { name: '微博',    icon: '🌊', url: 'https://s.weibo.com/weibo?q=',                  domain: 'weibo.com' },
-      { name: '知乎',    icon: '🔵', url: 'https://www.zhihu.com/search?q=',               domain: 'zhihu.com' },
-      { name: '豆瓣',    icon: '🟢', url: 'https://www.douban.com/search?q=',              domain: 'douban.com' },
-      { name: '贴吧',    icon: '🟠', url: 'https://tieba.baidu.com/f/search/res?qw=',      domain: 'tieba.baidu.com' },
-      { name: 'Reddit',  icon: '🔴', url: 'https://www.reddit.com/search/?q=',             domain: 'reddit.com' },
+      { name: 'GitHub', icon: '🐱', url: 'https://github.com/search?q=',             domain: 'github.com' },
+      { name: '微博',   icon: '🌊', url: 'https://s.weibo.com/weibo?q=',              domain: 'weibo.com' },
+      { name: '知乎',   icon: '🔵', url: 'https://www.zhihu.com/search?q=',           domain: 'zhihu.com' },
+      { name: '豆瓣',   icon: '🟢', url: 'https://www.douban.com/search?q=',          domain: 'douban.com' },
+      { name: '贴吧',   icon: '🟠', url: 'https://tieba.baidu.com/f/search/res?qw=',  domain: 'tieba.baidu.com' },
+      { name: 'Reddit', icon: '🔴', url: 'https://www.reddit.com/search/?q=',         domain: 'reddit.com' },
     ]
   },
   {
@@ -43,11 +67,11 @@ const SEARCH_CATEGORIES = [
     label: '视频',
     icon: '🎬',
     engines: [
-      { name: 'B站',   icon: '📺', url: 'https://search.bilibili.com/all?keyword=', domain: 'bilibili.com' },
-      { name: '腾讯',  icon: '🐧', url: 'https://v.qq.com/search.html#stag=0&s=',  domain: 'v.qq.com' },
+      { name: 'B站',    icon: '📺', url: 'https://search.bilibili.com/all?keyword=', domain: 'bilibili.com' },
+      { name: '腾讯',   icon: '🐧', url: 'https://v.qq.com/search.html#stag=0&s=',  domain: 'v.qq.com' },
       { name: '爱奇艺', icon: '🟢', url: 'https://so.iqiyi.com/so/q_',              domain: 'iqiyi.com' },
-      { name: '优酷',  icon: '🔵', url: 'https://so.youku.com/search_video/q_',    domain: 'youku.com' },
-      { name: '芒果',  icon: '🟡', url: 'https://so.mgtv.com/so/k-',               domain: 'mgtv.com' },
+      { name: '优酷',   icon: '🔵', url: 'https://so.youku.com/search_video/q_',    domain: 'youku.com' },
+      { name: '芒果',   icon: '🟡', url: 'https://so.mgtv.com/so/k-',               domain: 'mgtv.com' },
     ]
   },
   {
@@ -64,11 +88,11 @@ const SEARCH_CATEGORIES = [
     label: '生活',
     icon: '🛒',
     engines: [
-      { name: '淘宝',  icon: '🟠', url: 'https://s.taobao.com/search?q=',                    domain: 'taobao.com' },
-      { name: '京东',  icon: '🔴', url: 'https://search.jd.com/Search?keyword=',             domain: 'jd.com' },
-      { name: '拼多多', icon: '🟣', url: 'https://mobile.yangkeduo.com/search_result.html?search_key=', domain: 'pinduoduo.com' },
-      { name: '做菜',  icon: '🍳', url: 'https://www.xiachufang.com/search/?keyword=',        domain: 'xiachufang.com' },
-      { name: '翻译',  icon: '🌐', url: 'https://fanyi.baidu.com/#zh/en/',                   domain: 'fanyi.baidu.com' },
+      { name: '淘宝',   icon: '🟠', url: 'https://s.taobao.com/search?q=',                              domain: 'taobao.com' },
+      { name: '京东',   icon: '🔴', url: 'https://search.jd.com/Search?keyword=',                       domain: 'jd.com' },
+      { name: '拼多多', icon: '🟣', url: 'https://mobile.yangkeduo.com/search_result.html?search_key=',  domain: 'pinduoduo.com' },
+      { name: '做菜',   icon: '🍳', url: 'https://www.xiachufang.com/search/?keyword=',                  domain: 'xiachufang.com' },
+      { name: '翻译',   icon: '🌐', url: 'https://fanyi.baidu.com/#zh/en/',                             domain: 'fanyi.baidu.com' },
     ]
   },
   {
@@ -76,11 +100,11 @@ const SEARCH_CATEGORIES = [
     label: '求职',
     icon: '💼',
     engines: [
-      { name: '智联招聘', icon: '🔵', url: 'https://sou.zhaopin.com/?jl=530&kw=',          domain: 'zhaopin.com' },
-      { name: 'BOSS直聘', icon: '🟡', url: 'https://www.zhipin.com/web/geek/job?query=',   domain: 'zhipin.com' },
-      { name: '猎聘',     icon: '🟠', url: 'https://www.liepin.com/zhaopin/?key=',         domain: 'liepin.com' },
-      { name: '前程无忧', icon: '🔴', url: 'https://search.51job.com/list/000000,000000,0000,00,9,99,',  domain: '51job.com' },
-      { name: '拉勾网',   icon: '🟢', url: 'https://www.lagou.com/wn/jobs?kd=',            domain: 'lagou.com' },
+      { name: '智联招聘', icon: '🔵', url: 'https://sou.zhaopin.com/?jl=530&kw=',                         domain: 'zhaopin.com' },
+      { name: 'BOSS直聘', icon: '🟡', url: 'https://www.zhipin.com/web/geek/job?query=',                  domain: 'zhipin.com' },
+      { name: '猎聘',     icon: '🟠', url: 'https://www.liepin.com/zhaopin/?key=',                        domain: 'liepin.com' },
+      { name: '前程无忧', icon: '🔴', url: 'https://search.51job.com/list/000000,000000,0000,00,9,99,',   domain: '51job.com' },
+      { name: '拉勾网',   icon: '🟢', url: 'https://www.lagou.com/wn/jobs?kd=',                           domain: 'lagou.com' },
     ]
   },
 ];
@@ -94,15 +118,14 @@ function getDomain(url) {
   try { return new URL(url).hostname; } catch { return null; }
 }
 
-/* ── 工具：Favicon ── */
+/* ── 工具：卡片 Favicon ── */
 function faviconSrc(url) {
-  const d = getDomain(url);
-  return d ? `${FAVICON_API}${d}.ico` : DEFAULT_ICON;
+  return buildFaviconUrl(getDomain(url));
 }
 
+/* ── 工具：引擎 Favicon ── */
 function engineFavicon(engine) {
-  const d = getDomain(engine.domain) || engine.domain;
-  return `${FAVICON_API}${d}.ico`;
+  return buildFaviconUrl(engine.domain);
 }
 
 /* ── 渲染搜索分类 Tab ── */
@@ -132,16 +155,15 @@ function renderEngineList() {
     const img = document.createElement('img');
     img.src = engineFavicon(engine);
     img.onerror = function () {
-  const d = engine.domain;
-
-  if (d && !this.dataset.fallbackTried) {
-    this.dataset.fallbackTried = '1';
-    this.src = `https://${d}/favicon.ico`;
-  } else {
-    this.src = DEFAULT_ICON;
-    this.onerror = null;
-  }
-};
+      const d = engine.domain;
+      if (d && !this.dataset.fallbackTried) {
+        this.dataset.fallbackTried = '1';
+        this.src = `https://${d}/favicon.ico`;
+      } else {
+        this.src = DEFAULT_ICON;
+        this.onerror = null;
+      }
+    };
     img.alt = engine.name;
 
     const label = document.createElement('span');
@@ -156,7 +178,7 @@ function renderEngineList() {
 
 /* ── 更新搜索框显示的引擎 ── */
 function updateSearchBoxEngine() {
-  const icon = document.getElementById('search-engine-icon');
+  const icon   = document.getElementById('search-engine-icon');
   const nameEl = document.getElementById('engineName');
   icon.src = engineFavicon(currentEngine);
   icon.onerror = () => { icon.src = DEFAULT_ICON; icon.onerror = null; };
@@ -167,7 +189,6 @@ function updateSearchBoxEngine() {
 function selectCategory(catId) {
   currentCategoryId = catId;
   const cat = SEARCH_CATEGORIES.find(c => c.id === catId);
-  // 自动选中该分类第一个引擎
   currentEngine = cat.engines[0];
   renderSearchTabs();
   renderEngineList();
@@ -179,7 +200,6 @@ function selectEngine(engine) {
   currentEngine = engine;
   renderEngineList();
   updateSearchBoxEngine();
-  // 聚焦搜索框
   document.getElementById('searchInput').focus();
 }
 
@@ -234,27 +254,26 @@ function renderCards(sections) {
 
     items.forEach(item => {
       const a = document.createElement('a');
-      a.href      = item.url;
-      a.target    = '_blank';
-      a.className = 'card';
+      a.href         = item.url;
+      a.target       = '_blank';
+      a.className    = 'card';
       a.dataset.desc = item['data-desc'] ?? item.desc ?? '';
-      a.rel = 'noopener noreferrer';
+      a.rel          = 'noopener noreferrer';
 
       const img = document.createElement('img');
       img.className = 'favicon';
       img.loading   = 'lazy';
       img.src       = faviconSrc(item.url);
-      img.onerror = function () {
-  const domain = getDomain(item.url);
-
-  if (domain && !this.dataset.fallbackTried) {
-    this.dataset.fallbackTried = '1';
-    this.src = `https://${domain}/favicon.ico`; // 第二层
-  } else {
-    this.src = DEFAULT_ICON; // 最终兜底
-    this.onerror = null;
-  }
-};
+      img.onerror   = function () {
+        const domain = getDomain(item.url);
+        if (domain && !this.dataset.fallbackTried) {
+          this.dataset.fallbackTried = '1';
+          this.src = `https://${domain}/favicon.ico`;
+        } else {
+          this.src = DEFAULT_ICON;
+          this.onerror = null;
+        }
+      };
 
       const top = document.createElement('div');
       top.className = 'card-top';
@@ -306,7 +325,7 @@ function bindTouchTooltip() {
         }, 500);
       }, { passive: true });
 
-      card.addEventListener('touchend', () => { if (timer) clearTimeout(timer); });
+      card.addEventListener('touchend',  () => { if (timer) clearTimeout(timer); });
       card.addEventListener('touchmove', () => { clearTimeout(timer); timer = null; }, { passive: true });
     });
 
@@ -326,17 +345,14 @@ function changeBackground() {
 document.addEventListener('DOMContentLoaded', async () => {
   changeBackground();
 
-  // 初始化搜索分类
   renderSearchTabs();
   renderEngineList();
   updateSearchBoxEngine();
 
-  // 键盘回车搜索
   document.getElementById('searchInput').addEventListener('keydown', e => {
     if (e.key === 'Enter') doSearch();
   });
 
-  // 加载并渲染链接
   try {
     const res  = await fetch(LINKS_FILE);
     const data = await res.json();
