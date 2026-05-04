@@ -13,7 +13,6 @@ const PROXY = '';
 // ── 内部：拼接带代理的完整 URL ──
 function withProxy(originUrl) {
   if (!PROXY) return originUrl;
-  // 去掉协议头，拼在代理后面
   return PROXY + '/' + originUrl.replace(/^https?:\/\//, '');
 }
 
@@ -22,8 +21,57 @@ function buildFaviconUrl(domain) {
   if (FAVICON_PROVIDER === 'google')
     return withProxy(`https://www.google.com/s2/favicons?sz=64&domain=${domain}`);
   if (FAVICON_PROVIDER === 'duckduckgo')
-    return withProxy(`https://icons.duckduckgo.com/ip3/${domain}.ico`); 
+    return withProxy(`https://icons.duckduckgo.com/ip3/${domain}.ico`);
   return DEFAULT_ICON;
+}
+// ────────────────────────────────────────────────────────────
+
+// ── 内外网切换 ────────────────────────────────────────────────
+// 【说明】在 links.json 中给需要双地址的卡片加 "intranet" 字段即可，例如：
+// { "title": "GitLab", "url": "https://gitlab.com", "intranet": "http://192.168.1.100", "desc": "..." }
+// 没有 intranet 字段的卡片不受影响。
+
+let isIntranet = localStorage.getItem('netMode') === 'intranet';
+let _linksData = null;  // 缓存 links.json 数据，供切换时重渲染
+
+function getCardUrl(item) {
+  return (isIntranet && item.intranet) ? item.intranet : item.url;
+}
+
+function toggleNetMode() {
+  isIntranet = !isIntranet;
+  localStorage.setItem('netMode', isIntranet ? 'intranet' : 'internet');
+  updateNetToggleBtn();
+
+  // 直接更新已渲染的卡片 href，无需重新渲染
+  document.querySelectorAll('.card[data-url][data-intranet]').forEach(a => {
+    const url = isIntranet ? a.dataset.intranet : a.dataset.url;
+    a.href = url;
+    const popup = a.querySelector('.info-popup');
+    if (popup) popup.textContent = getDomain(url) ?? url;
+    const badge = a.querySelector('.net-badge');
+    if (badge) badge.textContent = isIntranet ? '内' : '外';
+  });
+}
+window.toggleNetMode = toggleNetMode;
+
+function updateNetToggleBtn() {
+  const btn = document.getElementById('netToggleBtn');
+  if (!btn) return;
+  btn.textContent = isIntranet ? '🏠 内网' : '🌐 外网';
+  btn.classList.toggle('intranet-active', isIntranet);
+}
+
+function injectNetToggleBtn() {
+  if (document.getElementById('netToggleBtn')) return;
+  const btn = document.createElement('button');
+  btn.id        = 'netToggleBtn';
+  btn.className = 'net-toggle-btn';
+  // 用 addEventListener 代替 onclick，更可靠
+  btn.addEventListener('click', function () {
+    toggleNetMode();
+  });
+  document.body.appendChild(btn);
 }
 // ────────────────────────────────────────────────────────────
 
@@ -254,15 +302,22 @@ function renderCards(sections) {
 
     items.forEach(item => {
       const a = document.createElement('a');
-      a.href         = item.url;
+      // ── 内外网：根据当前模式选择地址 ──
+      a.href         = getCardUrl(item);
       a.target       = '_blank';
       a.className    = 'card';
       a.dataset.desc = item['data-desc'] ?? item.desc ?? '';
       a.rel          = 'noopener noreferrer';
+      // 存储双地址供切换时直接更新
+      if (item.intranet) {
+        a.dataset.url      = item.url;
+        a.dataset.intranet = item.intranet;
+      }
 
       const img = document.createElement('img');
       img.className = 'favicon';
       img.loading   = 'lazy';
+      // 图标始终用外网地址（内网地址通常拿不到 favicon）
       img.src       = faviconSrc(item.url);
       img.onerror   = function () {
         const domain = getDomain(item.url);
@@ -289,11 +344,12 @@ function renderCards(sections) {
 
       const popup = document.createElement('div');
       popup.className = 'info-popup';
-      popup.textContent = getDomain(item.url) ?? item.url;
+      popup.textContent = getDomain(getCardUrl(item)) ?? getCardUrl(item);
 
       a.appendChild(top);
       a.appendChild(desc);
       a.appendChild(popup);
+
       grid.appendChild(a);
     });
 
@@ -349,6 +405,10 @@ document.addEventListener('DOMContentLoaded', async () => {
   renderEngineList();
   updateSearchBoxEngine();
 
+  // 注入内外网切换按钮
+  injectNetToggleBtn();
+  updateNetToggleBtn();
+
   document.getElementById('searchInput').addEventListener('keydown', e => {
     if (e.key === 'Enter') doSearch();
   });
@@ -356,6 +416,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   try {
     const res  = await fetch(LINKS_FILE);
     const data = await res.json();
+    _linksData = data;   // 缓存，供切换时重渲染
     renderCards(data);
   } catch (err) {
     console.error('加载 links.json 失败：', err);
