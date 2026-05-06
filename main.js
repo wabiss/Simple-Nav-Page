@@ -3,14 +3,9 @@
    =========================== */
 
 // ── 图标 & 背景 配置 ────────────────────────────────────────
-// 【1】切换图标源：'google' 或 'duckduckgo'
 const FAVICON_PROVIDER = 'duckduckgo';
-
-// 【2】代理前缀：不需要代理就留空 ''，需要就填你的代理地址（末尾不加斜杠）
 const PROXY = '';
-// const PROXY = ''; // ← 不走代理时改成这行
 
-// ── 内部：拼接带代理的完整 URL ──
 function withProxy(originUrl) {
   if (!PROXY) return originUrl;
   return PROXY + '/' + originUrl.replace(/^https?:\/\//, '');
@@ -24,15 +19,10 @@ function buildFaviconUrl(domain) {
     return withProxy(`https://icons.duckduckgo.com/ip3/${domain}.ico`);
   return DEFAULT_ICON;
 }
-// ────────────────────────────────────────────────────────────
 
 // ── 内外网切换 ────────────────────────────────────────────────
-// 【说明】在 links.json 中给需要双地址的卡片加 "intranet" 字段即可，例如：
-// { "title": "GitLab", "url": "https://gitlab.com", "intranet": "http://192.168.1.100", "desc": "..." }
-// 没有 intranet 字段的卡片不受影响。
-
 let isIntranet = localStorage.getItem('netMode') === 'intranet';
-let _linksData = null;  // 缓存 links.json 数据，供切换时重渲染
+let _linksData = null;
 
 function getCardUrl(item) {
   return (isIntranet && item.intranet) ? item.intranet : item.url;
@@ -42,8 +32,6 @@ function toggleNetMode() {
   isIntranet = !isIntranet;
   localStorage.setItem('netMode', isIntranet ? 'intranet' : 'internet');
   updateNetToggleBtn();
-
-  // 直接更新已渲染的卡片 href，无需重新渲染
   document.querySelectorAll('.card[data-url][data-intranet]').forEach(a => {
     const url = isIntranet ? a.dataset.intranet : a.dataset.url;
     a.href = url;
@@ -67,25 +55,19 @@ function injectNetToggleBtn() {
   const btn = document.createElement('button');
   btn.id        = 'netToggleBtn';
   btn.className = 'net-toggle-btn';
-  // 用 addEventListener 代替 onclick，更可靠
-  btn.addEventListener('click', function () {
-    toggleNetMode();
-  });
+  btn.addEventListener('click', function () { toggleNetMode(); });
   document.body.appendChild(btn);
 }
-// ────────────────────────────────────────────────────────────
 
+// ────────────────────────────────────────────────────────────
 const BG_API     = withProxy('https://bing.img.run/rand.php') + '?t=';
 const LINKS_FILE = 'links.json';
-
 const DEFAULT_ICON = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PGNpcmNsZSBjeD0iMTIiIGN5PSIxMiIgcj0iMTAiPjwvY2lyY2xlPjxwYXRoIGQ9Ik0yIDEyaDIwIj48L3BhdGg+PHBhdGggZD0iTTEyIDJhMTUuMyAxNS4zIDAgMCAxIDQgMTAgMTUuMyAxNS4zIDAgMCAxLTQgMTAgMTUuMyAxNS4zIDAgMCAxLTQtMTAgMTUuMyAxNS4zIDAgMCAxIDQtMTB6Ij48L3BhdGg+PC9zdmc+';
 
 /* ── 搜索分类数据 ── */
 const SEARCH_CATEGORIES = [
   {
-    id: 'engine',
-    label: '引擎',
-    icon: '🔍',
+    id: 'engine', label: '引擎', icon: '🔍',
     engines: [
       { name: '百度',       icon: '🔵', url: 'https://www.baidu.com/s?wd=',           domain: 'baidu.com' },
       { name: 'Google',     icon: '🌐', url: 'https://www.google.com/search?q=',      domain: 'google.com' },
@@ -98,9 +80,7 @@ const SEARCH_CATEGORIES = [
     ]
   },
   {
-    id: 'community',
-    label: '社区',
-    icon: '💬',
+    id: 'community', label: '社区', icon: '💬',
     engines: [
       { name: 'GitHub', icon: '🐱', url: 'https://github.com/search?q=',             domain: 'github.com' },
       { name: '微博',   icon: '🌊', url: 'https://s.weibo.com/weibo?q=',              domain: 'weibo.com' },
@@ -111,9 +91,7 @@ const SEARCH_CATEGORIES = [
     ]
   },
   {
-    id: 'video',
-    label: '视频',
-    icon: '🎬',
+    id: 'video', label: '视频', icon: '🎬',
     engines: [
       { name: 'B站',    icon: '📺', url: 'https://search.bilibili.com/all?keyword=', domain: 'bilibili.com' },
       { name: '腾讯',   icon: '🐧', url: 'https://v.qq.com/search.html#stag=0&s=',  domain: 'v.qq.com' },
@@ -123,18 +101,14 @@ const SEARCH_CATEGORIES = [
     ]
   },
   {
-    id: 'music',
-    label: '音乐',
-    icon: '🎵',
+    id: 'music', label: '音乐', icon: '🎵',
     engines: [
       { name: 'QQ音乐', icon: '🟢', url: 'https://y.qq.com/portal/search.html#page=1&searchid=1&remoteplace=txt.yqq.top&t=song&w=', domain: 'y.qq.com' },
       { name: '网易云', icon: '🔴', url: 'https://music.163.com/#/search/m/?s=',                                                    domain: 'music.163.com' },
     ]
   },
   {
-    id: 'life',
-    label: '生活',
-    icon: '🛒',
+    id: 'life', label: '生活', icon: '🛒',
     engines: [
       { name: '淘宝',   icon: '🟠', url: 'https://s.taobao.com/search?q=',                              domain: 'taobao.com' },
       { name: '京东',   icon: '🔴', url: 'https://search.jd.com/Search?keyword=',                       domain: 'jd.com' },
@@ -144,9 +118,7 @@ const SEARCH_CATEGORIES = [
     ]
   },
   {
-    id: 'job',
-    label: '求职',
-    icon: '💼',
+    id: 'job', label: '求职', icon: '💼',
     engines: [
       { name: '智联招聘', icon: '🔵', url: 'https://sou.zhaopin.com/?jl=530&kw=',                         domain: 'zhaopin.com' },
       { name: 'BOSS直聘', icon: '🟡', url: 'https://www.zhipin.com/web/geek/job?query=',                  domain: 'zhipin.com' },
@@ -157,26 +129,18 @@ const SEARCH_CATEGORIES = [
   },
 ];
 
-/* 当前选中的分类和引擎 */
 let currentCategoryId = 'engine';
 let currentEngine     = SEARCH_CATEGORIES[0].engines[0];
+let enginePanelOpen   = false;
 
-/* ── 工具：获取域名 ── */
+/* ── 工具 ── */
 function getDomain(url) {
   try { return new URL(url).hostname; } catch { return null; }
 }
+function faviconSrc(url) { return buildFaviconUrl(getDomain(url)); }
+function engineFavicon(engine) { return buildFaviconUrl(engine.domain); }
 
-/* ── 工具：卡片 Favicon ── */
-function faviconSrc(url) {
-  return buildFaviconUrl(getDomain(url));
-}
-
-/* ── 工具：引擎 Favicon ── */
-function engineFavicon(engine) {
-  return buildFaviconUrl(engine.domain);
-}
-
-/* ── 渲染搜索分类 Tab ── */
+/* ── 渲染分类 Tab ── */
 function renderSearchTabs() {
   const tabsEl = document.getElementById('searchTabs');
   tabsEl.innerHTML = '';
@@ -184,43 +148,12 @@ function renderSearchTabs() {
     const btn = document.createElement('button');
     btn.className = 'search-tab' + (cat.id === currentCategoryId ? ' active' : '');
     btn.innerHTML = `<span class="tab-icon">${cat.icon}</span><span class="tab-label">${cat.label}</span>`;
-    btn.onclick = () => selectCategory(cat.id);
-    tabsEl.appendChild(btn);
-  });
-}
-
-/* ── 渲染引擎按钮列表 ── */
-function renderEngineList() {
-  const listEl = document.getElementById('engineList');
-  listEl.innerHTML = '';
-  const cat = SEARCH_CATEGORIES.find(c => c.id === currentCategoryId);
-  if (!cat) return;
-
-  cat.engines.forEach(engine => {
-    const btn = document.createElement('button');
-    btn.className = 'engine-btn' + (engine === currentEngine ? ' active' : '');
-
-    const img = document.createElement('img');
-    img.src = engineFavicon(engine);
-    img.onerror = function () {
-      const d = engine.domain;
-      if (d && !this.dataset.fallbackTried) {
-        this.dataset.fallbackTried = '1';
-        this.src = `https://${d}/favicon.ico`;
-      } else {
-        this.src = DEFAULT_ICON;
-        this.onerror = null;
-      }
+    btn.onclick = () => {
+      selectCategory(cat.id);
+      // 切换分类时若面板已开，刷新内容
+      if (enginePanelOpen) renderEnginePanel();
     };
-    img.alt = engine.name;
-
-    const label = document.createElement('span');
-    label.textContent = engine.name;
-
-    btn.appendChild(img);
-    btn.appendChild(label);
-    btn.onclick = () => selectEngine(engine);
-    listEl.appendChild(btn);
+    tabsEl.appendChild(btn);
   });
 }
 
@@ -239,16 +172,87 @@ function selectCategory(catId) {
   const cat = SEARCH_CATEGORIES.find(c => c.id === catId);
   currentEngine = cat.engines[0];
   renderSearchTabs();
-  renderEngineList();
   updateSearchBoxEngine();
 }
 
 /* ── 切换引擎 ── */
 function selectEngine(engine) {
   currentEngine = engine;
-  renderEngineList();
   updateSearchBoxEngine();
+  renderEnginePanel(); // 刷新高亮
   document.getElementById('searchInput').focus();
+}
+
+/* ── 渲染内联引擎面板（只显示当前分类） ── */
+function renderEnginePanel() {
+  const panel = document.getElementById('enginePanel');
+  panel.innerHTML = '';
+  const cat = SEARCH_CATEGORIES.find(c => c.id === currentCategoryId);
+  if (!cat) return;
+
+  cat.engines.forEach(engine => {
+    const btn = document.createElement('button');
+    btn.className = 'engine-btn' + (engine === currentEngine ? ' active' : '');
+
+    const img = document.createElement('img');
+    img.src = engineFavicon(engine);
+    img.alt = engine.name;
+    img.onerror = function () {
+      const d = engine.domain;
+      if (d && !this.dataset.fallbackTried) {
+        this.dataset.fallbackTried = '1';
+        this.src = `https://${d}/favicon.ico`;
+      } else {
+        this.src = DEFAULT_ICON;
+        this.onerror = null;
+      }
+    };
+
+    const label = document.createElement('span');
+    label.textContent = engine.name;
+
+    btn.appendChild(img);
+    btn.appendChild(label);
+    btn.onclick = () => selectEngine(engine);
+    panel.appendChild(btn);
+  });
+}
+
+/* ── 开关内联面板 ── */
+function toggleEnginePanel() {
+  enginePanelOpen ? closeEnginePanel() : openEnginePanel();
+}
+
+function openEnginePanel() {
+  enginePanelOpen = true;
+  renderEnginePanel();
+  const panel = document.getElementById('enginePanel');
+  panel.style.display = 'flex';
+  document.getElementById('engineArrow').style.transform = 'rotate(180deg)';
+}
+
+function closeEnginePanel() {
+  enginePanelOpen = false;
+  document.getElementById('enginePanel').style.display = 'none';
+  document.getElementById('engineArrow').style.transform = '';
+}
+
+/* ── 清空搜索框 ── */
+function clearSearch() {
+  const input   = document.getElementById('searchInput');
+  const clearBtn = document.getElementById('clearBtn');
+  input.value   = '';
+  clearBtn.style.display = 'none';
+  input.focus();
+  filterLinks();
+}
+window.clearSearch = clearSearch;
+
+/* ── 同步清空按钮显隐 ── */
+function syncClearBtn() {
+  const input    = document.getElementById('searchInput');
+  const clearBtn = document.getElementById('clearBtn');
+  clearBtn.style.display = input.value.length > 0 ? 'flex' : 'none';
 }
 
 /* ── 执行搜索 ── */
@@ -260,6 +264,7 @@ window.doSearch = doSearch;
 
 /* ── 站内筛选 ── */
 function filterLinks() {
+  syncClearBtn();
   const query = document.getElementById('searchInput').value.toLowerCase().trim();
 
   document.querySelectorAll('.card').forEach(card => {
@@ -302,13 +307,11 @@ function renderCards(sections) {
 
     items.forEach(item => {
       const a = document.createElement('a');
-      // ── 内外网：根据当前模式选择地址 ──
       a.href         = getCardUrl(item);
       a.target       = '_blank';
       a.className    = 'card';
       a.dataset.desc = item['data-desc'] ?? item.desc ?? '';
       a.rel          = 'noopener noreferrer';
-      // 存储双地址供切换时直接更新
       if (item.intranet) {
         a.dataset.url      = item.url;
         a.dataset.intranet = item.intranet;
@@ -317,7 +320,6 @@ function renderCards(sections) {
       const img = document.createElement('img');
       img.className = 'favicon';
       img.loading   = 'lazy';
-      // 图标始终用外网地址（内网地址通常拿不到 favicon）
       img.src       = faviconSrc(item.url);
       img.onerror   = function () {
         const domain = getDomain(item.url);
@@ -349,7 +351,6 @@ function renderCards(sections) {
       a.appendChild(top);
       a.appendChild(desc);
       a.appendChild(popup);
-
       grid.appendChild(a);
     });
 
@@ -402,21 +403,26 @@ document.addEventListener('DOMContentLoaded', async () => {
   changeBackground();
 
   renderSearchTabs();
-  renderEngineList();
   updateSearchBoxEngine();
 
-  // 注入内外网切换按钮
   injectNetToggleBtn();
   updateNetToggleBtn();
 
+  // 引擎触发器点击
+  document.getElementById('engineTrigger').addEventListener('click', () => {
+    toggleEnginePanel();
+  });
+
+  // 搜索框键盘事件
   document.getElementById('searchInput').addEventListener('keydown', e => {
     if (e.key === 'Enter') doSearch();
+    if (e.key === 'Escape') closeEnginePanel();
   });
 
   try {
     const res  = await fetch(LINKS_FILE);
     const data = await res.json();
-    _linksData = data;   // 缓存，供切换时重渲染
+    _linksData = data;
     renderCards(data);
   } catch (err) {
     console.error('加载 links.json 失败：', err);
