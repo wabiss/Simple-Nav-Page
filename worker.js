@@ -12,7 +12,7 @@ export default {
     // ✅ 白名单（只允许这三个）
     const ALLOW = [
       "bing.img.run",
-      "icons.duckduckgo.com"
+      "icons.duckduckgo.com",
       "www.google.com"
     ];
 
