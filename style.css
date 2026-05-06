@@ -179,29 +179,66 @@ h1::after {
   -webkit-backdrop-filter: blur(20px);
   border: 2px solid var(--glass-border);
   border-radius: 50px;
-  padding: 5px 8px 5px 14px;
+  padding: 5px 8px 5px 6px;
   box-shadow: var(--glass-shadow);
   width: 100%;
   max-width: 700px;
   min-width: 0;
   gap: 8px;
+  position: relative;
+}
+
+/* ===== 引擎触发器（左侧可点击区域） ===== */
+.engine-trigger {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 8px;
+  border-radius: 30px;
+  border: 1px solid rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.07);
+  color: #fff;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: background 0.18s, border-color 0.18s;
+  flex-shrink: 0;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.engine-trigger:hover {
+  background: rgba(76,175,80,0.18);
+  border-color: rgba(76,175,80,0.5);
+}
+
+.engine-trigger:active {
+  background: rgba(76,175,80,0.28);
 }
 
 #search-engine-icon {
-  width: 18px;
-  height: 18px;
-  border-radius: 4px;
+  width: 16px;
+  height: 16px;
+  border-radius: 3px;
   object-fit: contain;
   flex-shrink: 0;
 }
 
 .engine-name {
-  font-size: 0.85rem;
+  font-size: 0.83rem;
   font-weight: 600;
   color: #fff;
   white-space: nowrap;
   flex-shrink: 0;
-  min-width: 36px;
+}
+
+.engine-arrow {
+  font-size: 0.7rem;
+  color: rgba(255,255,255,0.6);
+  transition: transform 0.22s ease;
+  flex-shrink: 0;
+  line-height: 1;
 }
 
 .search-divider {
@@ -225,7 +262,33 @@ h1::after {
 }
 .search-box input[type="text"]::placeholder { color: rgba(255, 255, 255, 0.65); }
 
-.search-box button {
+/* ===== 清空按钮 ===== */
+.clear-btn {
+  background: rgba(255,255,255,0.12);
+  border: none;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  cursor: pointer;
+  color: rgba(255,255,255,0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 0.72rem;
+  font-weight: 700;
+  transition: background 0.18s, color 0.18s, transform 0.12s;
+  line-height: 1;
+  padding: 0;
+}
+.clear-btn:hover {
+  background: rgba(255,255,255,0.22);
+  color: #fff;
+}
+.clear-btn:active { transform: scale(0.9); }
+
+/* ===== 搜索提交按钮 ===== */
+.search-submit-btn {
   background: var(--primary);
   border: none;
   width: 38px;
@@ -240,22 +303,28 @@ h1::after {
   transition: background 0.2s, transform 0.15s;
   font-size: 1rem;
 }
-.search-box button:active { transform: scale(0.93); background: #388E3C; }
+.search-submit-btn:active { transform: scale(0.93); background: #388E3C; }
 
-/* ===== 引擎快捷按钮 ===== */
+/* ===== 引擎内联面板 ===== */
 .engine-list {
   display: flex;
   align-items: center;
   gap: 6px;
-  flex-wrap: nowrap;          /* ← 改这里：禁止换行 */
+  flex-wrap: nowrap;
   justify-content: center;
-  max-width: 100%;
   width: 100%;
-  overflow-x: auto;           /* ← 新增：按钮过多时横向滚动 */
-  scrollbar-width: none;      /* Firefox 隐藏滚动条 */
-  -ms-overflow-style: none;   /* IE 隐藏滚动条 */
+  max-width: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  animation: panelIn 0.18s ease;
 }
-.engine-list::-webkit-scrollbar { display: none; } /* Chrome/Safari 隐藏滚动条 */
+.engine-list::-webkit-scrollbar { display: none; }
+
+@keyframes panelIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
 
 .engine-btn {
   display: flex;
@@ -332,7 +401,7 @@ h1::after {
 /* ===== 卡片网格 ===== */
 .link-container {
   display: grid;
-  grid-template-columns: repeat(8, minmax(0, 1fr)); /* ✅ 修复：minmax(0,1fr) 防止内容撑破列宽 */
+  grid-template-columns: repeat(8, minmax(0, 1fr));
   gap: 0.9rem;
   align-items: stretch;
 }
@@ -351,7 +420,7 @@ h1::after {
   padding: 11px;
   gap: 5px;
   height: 100%;
-  min-width: 0; /* ✅ 修复：防止 grid 子项被内容撑开 */
+  min-width: 0;
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -376,8 +445,8 @@ h1::after {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  min-width: 0; /* ✅ 修复：flex 子项必须设置才能让 ellipsis 生效 */
-  flex: 1;      /* ✅ 修复：撑满剩余空间，不会溢出 */
+  min-width: 0;
+  flex: 1;
 }
 
 .card .desc {
@@ -477,25 +546,51 @@ h1::after {
 }
 
 @media (max-width: 480px) {
+  .search-tabs {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    justify-content: flex-start;
+    width: 100%;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    padding-bottom: 2px;
+  }
+  .search-tabs::-webkit-scrollbar { display: none; }
+  .search-tab {
+    flex-shrink: 0;
+    padding: 6px 13px;
+    font-size: 0.85rem;
+  }
+  .tab-icon { font-size: 0.9rem; }
+  .tab-label { font-size: 0.85rem; }
+
   .engine-list {
     flex-wrap: wrap;
     overflow-x: unset;
+    justify-content: center;
   }
+  .engine-btn {
+    padding: 4px 9px;
+    font-size: 0.74rem;
+    gap: 3px;
+  }
+  .engine-btn img {
+    width: 12px;
+    height: 12px;
+  }
+
   .container { padding: 0.75rem; }
   .header-area { gap: 8px; margin-bottom: 1rem; }
   .header-icon { font-size: 1.3rem; }
 
-  .search-box {
-    padding: 4px 8px 4px 10px;
-    gap: 4px;
-  }
-  .engine-name { font-size: 0.78rem; min-width: 28px; }
+  .search-box { padding: 4px 8px 4px 6px; gap: 4px; }
+  /* 搜索框内触发器：比引擎气泡略小或相当 */
+  .engine-trigger { padding: 3px 6px; gap: 4px; }
+  .engine-name { font-size: 0.7rem; }
+  #search-engine-icon { width: 13px; height: 13px; }
+  .engine-arrow { font-size: 0.6rem; }
   .search-box input[type="text"] { font-size: 0.9rem; height: 38px; }
-  .search-box button { width: 34px; height: 34px; font-size: 0.9rem; }
-
-  .search-tab { padding: 4px 10px; font-size: 0.78rem; }
-  .tab-icon { font-size: 0.82rem; }
-  .engine-btn { padding: 4px 9px; font-size: 0.75rem; }
+  .search-submit-btn { width: 34px; height: 34px; font-size: 0.9rem; }
 
   .section { padding: 0.9rem 0.75rem; border-radius: 14px; }
   .link-container { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.5rem; }
@@ -512,6 +607,7 @@ h1::after {
   .card .title { font-size: 0.7rem; }
   .search-tab { padding: 3px 8px; }
 }
+
 /* ===== 内外网切换按钮 ===== */
 .net-toggle-btn {
   position: fixed;
@@ -533,15 +629,11 @@ h1::after {
   user-select: none;
 }
 
-.net-toggle-btn:hover {
-  background: rgba(0, 0, 0, 0.6);
-}
+.net-toggle-btn:hover { background: rgba(0, 0, 0, 0.6); }
 
 .net-toggle-btn.intranet-active {
   background: rgba(210, 90, 20, 0.65);
   border-color: rgba(255, 150, 70, 0.5);
 }
 
-.net-toggle-btn.intranet-active:hover {
-  background: rgba(210, 90, 20, 0.85);
-}
+.net-toggle-btn.intranet-active:hover { background: rgba(210, 90, 20, 0.85); }
