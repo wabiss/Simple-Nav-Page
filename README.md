@@ -79,7 +79,6 @@
 如果你在国内访问时遇到：
 
 * 图标无法加载
-* 背景图片加载失败
 
 可以使用项目内置的 `worker.js` 来部署代理服务。
 
@@ -115,7 +114,6 @@ const PROXY = 'https://api.xxx.com';
 
 Worker 会代理以下资源：
 
-* 背景图：`bing.img.run`
 * 网站图标：`icons.duckduckgo.com`,`www.google.com`
 
 从而提升国内访问稳定性。
