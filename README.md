@@ -96,7 +96,7 @@
 
 #### 🔗 部署后使用方式
 
-假设你的域名是：
+假设你的worker自定义域名是：
 
 ```text id="8n1jnt"
 https://api.xxx.com
