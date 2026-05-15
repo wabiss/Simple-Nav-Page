@@ -9,64 +9,166 @@
         "data-desc": "全球最大代码托管与开源协作平台，GitHub、git"
       },
       {
-        "title": "哔哩哔哩",
-        "url": "https://www.bilibili.com/",
-        "desc": "视频、动漫、弹幕",
-        "data-desc": "视频弹幕网站，涵盖动漫、学习与娱乐，B站、b站"
+        "title": "谷歌邮箱",
+        "url": "https://mail.google.com/",
+        "desc": "邮箱",
+        "data-desc": "谷歌邮箱"
       },
       {
-        "title": "知乎",
-        "url": "https://www.zhihu.com/",
-        "desc": "中文问答社区",
-        "data-desc": "中文互联网最大问答社区，知识分享与讨论平台"
+        "title": "outlook邮箱",
+        "url": "https://outlook.live.com/mail/",
+        "desc": "邮箱",
+        "data-desc": "outlook邮箱"
       },
       {
-        "title": "少数派",
-        "url": "https://sspai.com/",
-        "desc": "数字生活方式媒体",
-        "data-desc": "专注效率与数字生活方式的中文媒体，App推荐、科技资讯"
+        "title": "订阅转换",
+        "url": "https://sub.525542.xyz/",
+        "desc": "订阅转换",
+        "data-desc": "自建项目"
       },
       {
-        "title": "Notion",
-        "url": "https://notion.so/",
-        "desc": "笔记、项目管理",
-        "data-desc": "全能笔记与项目管理工具，支持数据库、文档、任务看板"
+        "title": "joey",
+        "url": "https://joey.525542.xyz/wabiss",
+        "desc": "订阅",
+        "data-desc": "自建项目"
       },
       {
-        "title": "Figma",
-        "url": "https://www.figma.com/",
-        "desc": "UI设计、协作",
-        "data-desc": "专业 UI/UX 协作设计工具，原型图、设计稿、团队协作"
+        "title": "bpb",
+        "url": "https://bp.tgwy.eu.org/panel",
+        "desc": "订阅",
+        "data-desc": "自建项目"
       },
       {
-        "title": "Claude",
-        "url": "https://claude.ai/",
-        "desc": "Anthropic AI助手",
-        "data-desc": "Anthropic 旗下 AI 对话助手，擅长写作、分析与代码"
+        "title": "edt",
+        "url": "https://edg.tgwy.eu.org/admin",
+        "desc": "订阅",
+        "data-desc": "自建项目"
       },
       {
-        "title": "ChatGPT",
-        "url": "https://chatgpt.com/",
-        "desc": "OpenAI AI助手",
-        "data-desc": "OpenAI 旗下 AI 对话助手，GPT-4，强大通用大模型"
+        "title": "snp检测",
+        "url": "https://snp.tgwy.eu.org/",
+        "desc": "snp检测",
+        "data-desc": "自建项目"
       },
       {
-        "title": "DeepL",
-        "url": "https://www.deepl.com/",
-        "desc": "高质量AI翻译",
-        "data-desc": "高质量 AI 驱动翻译工具，比谷歌翻译更自然流畅，支持多语言"
+        "title": "事件提醒",
+        "url": "https://dlx.hidns.cc/",
+        "desc": "提醒",
+        "data-desc": "自建项目"
       },
       {
-        "title": "Unsplash",
-        "url": "https://unsplash.com/",
-        "desc": "免费高清图片素材",
-        "data-desc": "全球最大免费高清图片素材库，商用免版权，摄影图库"
+        "title": "烈火",
+        "url": "https://lh.ttlive17.dns-dynamic.net/",
+        "desc": "订阅",
+        "data-desc": "自建项目"
       },
       {
-        "title": "王五博客",
-        "url": "https://wwdy.ccwu.cc",
-        "desc": "个人博客",
-        "data-desc": "王五的个人博客"
+        "title": "worker查询",
+        "url": "https://cfwp.dlx.us.ci/",
+        "desc": "请求次数查询",
+        "data-desc": "自建项目"
+      },
+      {
+        "title": "优选订阅生成器",
+        "url": "https://sub.dlx.us.ci/",
+        "desc": "优选订阅",
+        "data-desc": "自建项目"
+      },
+      {
+        "title": "nodeloc论坛",
+        "url": "https://www.nodeloc.com/",
+        "desc": "论坛",
+        "data-desc": "闲来无事看一看"
+      },
+      {
+        "title": "cloudflare",
+        "url": "https://dash.cloudflare.com/",
+        "desc": "赛博活佛",
+        "data-desc": "白嫖"
+      },
+      {
+        "title": "Youtube",
+        "url": "https://www.youtube.com/",
+        "desc": "视频",
+        "data-desc": "瞎看"
+      },
+      {
+        "title": "地址生成",
+        "url": "https://address.nnuu.nyc.mn/",
+        "desc": "真实地址生成",
+        "data-desc": "国外地址"
+      },
+      {
+        "title": "dpdns",
+        "url": "https://dash.domain.digitalplat.org/",
+        "desc": "域名",
+        "data-desc": "免费域名"
+      },
+      {
+        "title": "hidns",
+        "url": "https://www.hidoha.net/",
+        "desc": "域名",
+        "data-desc": "免费域名"
+      },
+      {
+        "title": "eu.org",
+        "url": "https://nic.eu.org/",
+        "desc": "域名",
+        "data-desc": "免费域名"
+      },
+      {
+        "title": "spaceship",
+        "url": "https://www.spaceship.com/",
+        "desc": "xyz域名",
+        "data-desc": "XYZ域名"
+      },
+      {
+        "title": "DNSHE",
+        "url": "https://my.dnshe.com/",
+        "desc": "域名",
+        "data-desc": "免费域名"
+      },
+      {
+        "title": "gv.uy",
+        "url": "https://nic.gv.uy/",
+        "desc": "域名",
+        "data-desc": "免费域名"
+      },
+      {
+        "title": "indevs域名",
+        "url": "https://domain.stackryze.com/",
+        "desc": "域名",
+        "data-desc": "免费域名"
+      },
+      {
+        "title": "eu.cc",
+        "url": "https://www.gname.com/",
+        "desc": "域名",
+        "data-desc": "免费域名"
+      },
+      {
+        "title": "libretv",
+        "url": "https://libretv.dlxx.cc.cd/",
+        "desc": "视频",
+        "data-desc": "自建项目"
+      },
+      {
+        "title": "solara",
+        "url": "https://solara.525542.xyz/",
+        "desc": "音乐",
+        "data-desc": "自建项目"
+      },
+      {
+        "title": "ip检测",
+        "url": "https://ipip.la/",
+        "desc": "纯净度、ip",
+        "data-desc": "查询IP纯净度"
+      },
+      {
+        "title": "Gemini",
+        "url": "https://gemini.google.com/",
+        "desc": "谷歌多模态AI",
+        "data-desc": "谷歌旗下多模态 AI 大模型，支持图文理解与对话，Gemini 1.5 Pro"
       }
     ]
   },
