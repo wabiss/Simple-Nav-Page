@@ -27,6 +27,12 @@
         "data-desc": "谷歌邮箱"
       },
       {
+        "title": "ZOHO邮箱",
+        "url": "https://mail.zoho.com/",
+        "desc": "邮箱",
+        "data-desc": "ZOHO邮箱"
+      },
+      {
         "title": "outlook邮箱",
         "url": "https://outlook.live.com/mail/",
         "desc": "邮箱",
