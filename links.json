@@ -21,6 +21,12 @@
         "data-desc": "免费节点容器"
       },
       {
+        "title": "heavencloud",
+        "url": "https://control.heavencloud.in/",
+        "desc": "容器",
+        "data-desc": "免费节点容器"
+      },
+      {
         "title": "uptimeflare",
         "url": "https://uptime.tgwy.eu.org/",
         "desc": "探针",
