@@ -15,6 +15,12 @@
         "data-desc": "免费AI"
       },
       {
+        "title": "northflank",
+        "url": "https://app.northflank.com/",
+        "desc": "容器",
+        "data-desc": "免费节点容器"
+      },
+      {
         "title": "uptimeflare",
         "url": "https://uptime.tgwy.eu.org/",
         "desc": "探针",
