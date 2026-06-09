@@ -205,7 +205,19 @@
         "url": "https://gemini.google.com/",
         "desc": "谷歌多模态AI",
         "data-desc": "谷歌旗下多模态 AI 大模型，支持图文理解与对话，Gemini 1.5 Pro"
-      }
+      },
+      {
+        "title": "js混淆",
+        "url": "https://go.sssc.nyc.mn/js-obfuscator",
+        "desc": "js混淆",
+        "data-desc": "混淆工具"
+      },
+      {
+        "title": "py混淆",
+        "url": "https://obf.eooce.com/",
+        "desc": "py混淆",
+        "data-desc": "混淆工具"
+      },
     ]
   },
   {
