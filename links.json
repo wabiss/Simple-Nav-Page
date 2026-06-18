@@ -223,6 +223,11 @@
         "url": "https://obf.eooce.com/",
         "desc": "py混淆",
         "data-desc": "混淆工具"
+      },{
+        "title": "cron-job",
+        "url": "https://console.cron-job.org/",
+        "desc": "外部触发",
+        "data-desc": "定时触发工具"
       }
     ]
   },
