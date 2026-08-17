@@ -347,6 +347,18 @@
         "url": "http://hoster24.org/",
         "desc": "容器",
         "data-desc": "免费节点容器"
+      },
+      {
+        "title": "hostlio",
+        "url": "https://hostlio.fr/",
+        "desc": "容器",
+        "data-desc": "免费节点容器"
+      },
+      {
+        "title": "craftserv",
+        "url": "https://manager.craftserv.fr/",
+        "desc": "容器",
+        "data-desc": "免费节点容器"
       }
     ]
   },
