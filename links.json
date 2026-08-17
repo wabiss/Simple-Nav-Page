@@ -21,6 +21,12 @@
         "data-desc": "石头探针"
       },
       {
+        "title": "cftunnel监控",
+        "url": "https://tunnel.tgwy.eu.org/",
+        "desc": "监控",
+        "data-desc": "隧道监控"
+      },
+      {
         "title": "uptimeflare",
         "url": "https://uptime.tgwy.eu.org/",
         "desc": "探针",
