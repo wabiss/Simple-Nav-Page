@@ -27,12 +27,6 @@
         "data-desc": "免费节点容器"
       },
       {
-        "title": "heavencloud",
-        "url": "https://control.heavencloud.in/",
-        "desc": "容器",
-        "data-desc": "免费节点容器"
-      },
-      {
         "title": "uptimeflare",
         "url": "https://uptime.tgwy.eu.org/",
         "desc": "探针",
@@ -229,6 +223,125 @@
         "desc": "外部触发",
         "data-desc": "定时触发工具"
       }
+    ]
+  },
+  {
+    "section": "游戏机",
+    "items": [
+      {
+        "title": "northflank",
+        "url": "https://app.northflank.com/",
+        "desc": "容器",
+        "data-desc": "免费节点容器"
+      },
+      {
+        "title": "codered",
+        "url": "https://app.codered.cloud/",
+        "desc": "容器",
+        "data-desc": "免费节点容器"
+      },
+      {
+        "title": "streamlit",
+        "url": "https://streamlit.io/",
+        "desc": "容器",
+        "data-desc": "免费节点容器"
+      },
+      {
+        "title": "galaxy",
+        "url": "https://galaxycloud.app/",
+        "desc": "容器",
+        "data-desc": "免费节点容器"
+      },
+      {
+        "title": "alwaysdata",
+        "url": "https://www.alwaysdata.com/",
+        "desc": "容器",
+        "data-desc": "免费节点容器"
+      },
+      {
+        "title": "icehost",
+        "url": "https://icehost.pl/",
+        "desc": "容器",
+        "data-desc": "免费节点容器"
+      },
+      {
+        "title": "elysiannodes",
+        "url": "https://elysiannodes.uk/",
+        "desc": "容器",
+        "data-desc": "免费节点容器"
+      },
+      {
+        "title": "hidencloud",
+        "url": "https://www.hidencloud.com/",
+        "desc": "容器",
+        "data-desc": "免费节点容器"
+      },
+      {
+        "title": "wispbyte",
+        "url": "https://wispbyte.com/",
+        "desc": "容器",
+        "data-desc": "免费节点容器"
+      },
+      {
+        "title": "host2play",
+        "url": "https://host2play.gratis/",
+        "desc": "容器",
+        "data-desc": "免费节点容器"
+      },
+      {
+        "title": "fenixhost",
+        "url": "https://fenixhost.net/",
+        "desc": "容器",
+        "data-desc": "免费节点容器"
+      },
+      {
+        "title": "serverix",
+        "url": "https://serverix.cloud/",
+        "desc": "容器",
+        "data-desc": "免费节点容器"
+      },
+      {
+        "title": "bagelhosting",
+        "url": "https://bagelhosting.net/",
+        "desc": "容器",
+        "data-desc": "免费节点容器"
+      },
+      {
+        "title": "axofree",
+        "url": "http://axofree.com/",
+        "desc": "容器",
+        "data-desc": "免费节点容器"
+      },
+      {
+        "title": "nexnodecloud",
+        "url": "http://nexnodecloud.com/",
+        "desc": "容器",
+        "data-desc": "免费节点容器"
+      },
+      {
+        "title": "quaxly",
+        "url": "http://quaxly.com/",
+        "desc": "容器",
+        "data-desc": "免费节点容器"
+      },
+      {
+        "title": "skymc",
+        "url": "http://skymc.org/",
+        "desc": "容器",
+        "data-desc": "免费节点容器"
+      },
+      {
+        "title": "vexanode",
+        "url": "http://vexanode.cloud/",
+        "desc": "容器",
+        "data-desc": "免费节点容器"
+      },
+      {
+        "title": "hoster24",
+        "url": "http://hoster24.org/",
+        "desc": "容器",
+        "data-desc": "免费节点容器"
+      },
     ]
   },
   {
