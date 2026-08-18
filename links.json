@@ -371,6 +371,12 @@
         "url": "https://host.zenode.fr/",
         "desc": "容器",
         "data-desc": "免费节点容器"
+      },
+      {
+        "title": "visihost",
+        "url": "https://free.visihost.in/server/e1d2c061/",
+        "desc": "容器",
+        "data-desc": "免费节点容器"
       }
     ]
   },
