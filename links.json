@@ -377,6 +377,12 @@
         "url": "https://free.visihost.in/server/e1d2c061/",
         "desc": "容器",
         "data-desc": "免费节点容器"
+      },
+      {
+        "title": "laternodes",
+        "url": "https://laternodes.com/server/983d6ea8",
+        "desc": "容器",
+        "data-desc": "免费节点容器"
       }
     ]
   },
