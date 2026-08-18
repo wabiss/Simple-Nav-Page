@@ -383,6 +383,12 @@
         "url": "https://laternodes.com/server/983d6ea8",
         "desc": "容器",
         "data-desc": "免费节点容器"
+      },
+      {
+        "title": "freeservers",
+        "url": "https://app.fsrv.pl/minecraft",
+        "desc": "容器",
+        "data-desc": "免费节点容器"
       }
     ]
   },
