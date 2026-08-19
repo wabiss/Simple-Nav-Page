@@ -401,11 +401,16 @@
         "url": "https://botzone.fr/",
         "desc": "容器",
         "data-desc": "免费节点容器"
-      }
-      ,
+      },
       {
         "title": "runxbuild",
         "url": "https://dashboard.runxbuild.com/overview",
+        "desc": "容器",
+        "data-desc": "免费节点容器"
+      },
+      {
+        "title": "minenode",
+        "url": "https://azura.azurhosts.com/azurbox/11f8ecfb/server/ad494572",
         "desc": "容器",
         "data-desc": "免费节点容器"
       }
