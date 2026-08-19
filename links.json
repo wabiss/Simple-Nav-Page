@@ -395,6 +395,12 @@
         "url": "https://panel.omenhosting.xyz/",
         "desc": "容器",
         "data-desc": "免费节点容器"
+      },
+      {
+        "title": "botzone",
+        "url": "https://botzone.fr/",
+        "desc": "容器",
+        "data-desc": "免费节点容器"
       }
     ]
   },
