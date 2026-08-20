@@ -413,6 +413,12 @@
         "url": "https://azura.azurhosts.com/azurbox/11f8ecfb/server/ad494572",
         "desc": "容器",
         "data-desc": "免费节点容器"
+      },
+      {
+        "title": "cloudblaze",
+        "url": "https://cloudblaze.org/servers/",
+        "desc": "容器",
+        "data-desc": "免费节点容器"
       }
     ]
   },
