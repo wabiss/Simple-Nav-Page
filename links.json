@@ -343,12 +343,6 @@
         "data-desc": "免费节点容器"
       },
       {
-        "title": "skymc",
-        "url": "http://skymc.org/",
-        "desc": "容器",
-        "data-desc": "免费节点容器"
-      },
-      {
         "title": "vexanode",
         "url": "https://console.vexanode.gg/",
         "desc": "容器",
@@ -435,12 +429,6 @@
       {
         "title": "pixel-host",
         "url": "https://dash.pixel-host.de/",
-        "desc": "容器",
-        "data-desc": "免费节点容器"
-      },
-      {
-        "title": "rustix",
-        "url": "https://my.rustix.me/server/36e69547",
         "desc": "容器",
         "data-desc": "免费节点容器"
       }
