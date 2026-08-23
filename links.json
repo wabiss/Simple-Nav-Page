@@ -195,6 +195,18 @@
         "data-desc": "查询IP纯净度"
       },
       {
+        "title": "ip检测",
+        "url": "https://ippure.com/",
+        "desc": "纯净度、ip",
+        "data-desc": "查询IP纯净度"
+      },
+      {
+        "title": "ip检测",
+        "url": "https://iplark.com/",
+        "desc": "纯净度、ip",
+        "data-desc": "查询IP纯净度"
+      },
+      {
         "title": "ipinfo",
         "url": "https://ipinfo.io/what-is-my-ip",
         "desc": "纯净度、ip",
