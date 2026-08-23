@@ -437,6 +437,12 @@
         "url": "https://console.dada-tuda.ru/",
         "desc": "容器",
         "data-desc": "免费节点容器"
+      },
+      {
+        "title": "vortexa",
+        "url": "https://www.vortexa.cloud/server",
+        "desc": "容器",
+        "data-desc": "免费节点容器"
       }
     ]
   },
