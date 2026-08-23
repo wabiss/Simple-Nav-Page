@@ -343,12 +343,6 @@
         "data-desc": "免费节点容器"
       },
       {
-        "title": "hoster24",
-        "url": "http://hoster24.org/",
-        "desc": "容器",
-        "data-desc": "免费节点容器"
-      },
-      {
         "title": "hostlio",
         "url": "https://hostlio.fr/",
         "desc": "容器",
@@ -357,12 +351,6 @@
       {
         "title": "craftserv",
         "url": "https://manager.craftserv.fr/",
-        "desc": "容器",
-        "data-desc": "免费节点容器"
-      },
-      {
-        "title": "einfxchpingu",
-        "url": "https://dash.einfxchpingu.net/",
         "desc": "容器",
         "data-desc": "免费节点容器"
       },
