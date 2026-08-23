@@ -431,6 +431,12 @@
         "url": "https://dash.pixel-host.de/",
         "desc": "容器",
         "data-desc": "免费节点容器"
+      },
+      {
+        "title": "dada-tuda",
+        "url": "https://console.dada-tuda.ru/",
+        "desc": "容器",
+        "data-desc": "免费节点容器"
       }
     ]
   },
