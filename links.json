@@ -437,6 +437,12 @@
         "url": "https://dash.pixel-host.de/",
         "desc": "容器",
         "data-desc": "免费节点容器"
+      },
+      {
+        "title": "acorehosting",
+        "url": "https://zero.acorehosting.com/dashboard",
+        "desc": "容器",
+        "data-desc": "免费节点容器"
       }
     ]
   },
