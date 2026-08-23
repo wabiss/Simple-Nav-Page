@@ -425,11 +425,16 @@
         "url": "https://console.lymucloud.ru/server/ec970a0e",
         "desc": "容器",
         "data-desc": "免费节点容器"
-      }
-      ,
+      },
       {
         "title": "pandastack",
         "url": "https://app.pandastack.ai/",
+        "desc": "容器",
+        "data-desc": "免费节点容器"
+      },
+      {
+        "title": "pixel-host",
+        "url": "https://dash.pixel-host.de/",
         "desc": "容器",
         "data-desc": "免费节点容器"
       }
