@@ -431,6 +431,12 @@
         "url": "https://dash.pixel-host.de/",
         "desc": "容器",
         "data-desc": "免费节点容器"
+      },
+      {
+        "title": "gimzonodes",
+        "url": "https://gimzonodes.space/panel",
+        "desc": "容器",
+        "data-desc": "免费节点容器"
       }
     ]
   },
