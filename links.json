@@ -313,12 +313,6 @@
         "data-desc": "免费节点容器"
       },
       {
-        "title": "bagelhosting",
-        "url": "https://bagelhosting.net/",
-        "desc": "容器",
-        "data-desc": "免费节点容器"
-      },
-      {
         "title": "ecloudserv",
         "url": "https://ecloudserv.fr/",
         "desc": "容器",
@@ -379,12 +373,6 @@
         "data-desc": "免费节点容器"
       },
       {
-        "title": "omenhosting",
-        "url": "https://panel.omenhosting.xyz/",
-        "desc": "容器",
-        "data-desc": "免费节点容器"
-      },
-      {
         "title": "botzone",
         "url": "https://botzone.fr/",
         "desc": "容器",
@@ -405,12 +393,6 @@
       {
         "title": "cloudblaze",
         "url": "https://cloudblaze.org/servers/",
-        "desc": "容器",
-        "data-desc": "免费节点容器"
-      },
-      {
-        "title": "moonmc",
-        "url": "https://moonmc.xyz/dashboard",
         "desc": "容器",
         "data-desc": "免费节点容器"
       },
