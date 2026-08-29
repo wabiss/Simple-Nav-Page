@@ -7,7 +7,7 @@
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧭</text></svg>">
   <link rel="stylesheet" href="style.css">
   <style>
-    /* 管理悬浮按钮 & 弹窗样式 */
+    /* ⚙️ 齿轮悬浮按钮 */
     .admin-float-btn {
       position: fixed;
       bottom: 24px;
@@ -18,46 +18,56 @@
       border-radius: 50%;
       background: #3b82f6;
       color: #fff;
-      font-size: 24px;
+      font-size: 20px;
       border: none;
       cursor: pointer;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.4);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.35);
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: all 0.2s ease;
+      transition: all 0.25s ease;
     }
     .admin-float-btn:hover {
-      transform: scale(1.08);
+      transform: rotate(60deg) scale(1.08);
       background: #2563eb;
     }
+
+    /* 弹窗遮罩与主卡片 */
     .admin-modal-mask {
       display: none;
       position: fixed;
       inset: 0;
       background: rgba(0,0,0,0.65);
-      backdrop-filter: blur(4px);
+      backdrop-filter: blur(6px);
       z-index: 10000;
       justify-content: center;
       align-items: center;
     }
     .admin-modal-card {
-      background: #1c1c28;
-      border: 1px solid rgba(255,255,255,0.1);
+      background: #1e1e2d;
+      border: 1px solid rgba(255,255,255,0.12);
       color: #fff;
       padding: 22px;
       border-radius: 14px;
       width: 90%;
-      max-width: 350px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+      max-width: 360px;
+      box-shadow: 0 12px 32px rgba(0,0,0,0.6);
       box-sizing: border-box;
+      animation: modalFadeIn 0.2s ease-out;
     }
+    @keyframes modalFadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
     .admin-modal-card h3 {
-      margin: 0 0 14px 0;
+      margin: 0 0 16px 0;
       font-size: 17px;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      padding-bottom: 10px;
     }
     .admin-modal-card label {
       font-size: 12px;
@@ -70,8 +80,8 @@
       padding: 8px 10px;
       margin-bottom: 12px;
       border-radius: 8px;
-      border: 1px solid #333;
-      background: #272738;
+      border: 1px solid #38384f;
+      background: #28283c;
       color: #fff;
       box-sizing: border-box;
       outline: none;
@@ -81,20 +91,23 @@
     }
     .admin-btn-group {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 6px;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 10px;
     }
     .admin-action-btn {
-      padding: 8px 16px;
-      border-radius: 8px;
+      padding: 7px 15px;
+      border-radius: 7px;
       border: none;
       cursor: pointer;
       font-weight: 500;
+      font-size: 13px;
     }
     .btn-save { background: #22c55e; color: #fff; }
     .btn-cancel { background: #374151; color: #fff; }
-    /* 卡片删除按钮 */
+    .btn-lock { background: #ef4444; color: #fff; }
+
+    /* 删除卡片小红叉 */
     .delete-card-badge {
       position: absolute;
       top: -6px;
@@ -160,22 +173,33 @@
   <div id="main-content"></div>
 </div>
 
-<!-- 浮动管理按钮 -->
-<button class="admin-float-btn" id="adminBtn" title="管理/添加网址">+</button>
+<!-- ⚙️ 齿轮悬浮按钮 -->
+<button class="admin-float-btn" id="adminBtn" onclick="openAdminPanel()" title="网站管理设置">⚙️</button>
 
-<!-- 管理弹窗 -->
+<!-- 统一管理弹窗 -->
 <div class="admin-modal-mask" id="adminModal">
-  <div class="admin-modal-card">
+  
+  <!-- 1. 密码解锁界面 -->
+  <div class="admin-modal-card" id="lockView" style="display: block;">
+    <h3><span>🔐 管理员验证</span></h3>
+    <p style="font-size: 12px; color: #888; margin: -6px 0 14px 0;">请输入管理密码，验证成功后此设备将免密登录：</p>
+    
+    <label>管理密码:</label>
+    <input type="password" id="authPasswordInput" placeholder="输入在 Cloudflare 设置的密码" onkeydown="if(event.key==='Enter') verifyAndUnlock()">
+    
+    <div class="admin-btn-group">
+      <button class="admin-action-btn btn-cancel" onclick="closeAdminPanel()">取消</button>
+      <button class="admin-action-btn btn-save" id="unlockBtn" onclick="verifyAndUnlock()">确认解锁</button>
+    </div>
+  </div>
+
+  <!-- 2. 后台管理界面 -->
+  <div class="admin-modal-card" id="dashboardView" style="display: none;">
     <h3>
-      <span>➕ 添加网址</span>
-      <button id="toggleDeleteModeBtn" style="background: none; border: 1px solid #ef4444; color: #ef4444; border-radius: 6px; padding: 2px 8px; font-size: 11px; cursor: pointer;">🗑️ 删除模式</button>
+      <span>🛠️ 网站管理后台</span>
+      <button id="toggleDeleteBtn" onclick="toggleDeleteMode()" style="background: none; border: 1px solid #ef4444; color: #ef4444; border-radius: 6px; padding: 2px 8px; font-size: 11px; cursor: pointer;">🗑️ 开启删除模式</button>
     </h3>
     
-    <div id="pwdContainer">
-      <label style="color:#f87171;">🔑 管理密码 (仅需输入一次):</label>
-      <input type="password" id="adminPasswordInput" placeholder="输入你在 CF 设置的密码">
-    </div>
-
     <label>分类名称:</label>
     <input type="text" id="addSection" placeholder="例如：常用 / 游戏机">
     
@@ -191,16 +215,17 @@
     <label>网站描述 (可选):</label>
     <input type="text" id="addDesc" placeholder="例如：视频平台">
     
-    <div class="admin-btn-group">
-      <span id="resetPwdBtn" style="font-size: 12px; color: #888; cursor: pointer; text-decoration: underline;">重设密码</span>
-      <div>
-        <button class="admin-action-btn btn-cancel" id="closeModalBtn">取消</button>
-        <button class="admin-action-btn btn-save" id="saveLinkBtn">保存并发布</button>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
+      <span onclick="lockAdminSession()" style="font-size: 12px; color: #ef4444; cursor: pointer; text-decoration: underline;">🚪 退出管理</span>
+      <div style="display: flex; gap: 8px;">
+        <button class="admin-action-btn btn-cancel" onclick="closeAdminPanel()">关闭</button>
+        <button class="admin-action-btn btn-save" id="saveLinkBtn" onclick="submitNewLink()">保存并发布</button>
       </div>
     </div>
   </div>
+
 </div>
 
-<script src="main.js"></script>
+<script src="main.js?v=202409"></script>
 </body>
 </html>
