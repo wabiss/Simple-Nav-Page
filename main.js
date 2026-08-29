@@ -1,5 +1,5 @@
 /* ===========================
-   王五导航 · main.js
+   石头导航 · main.js
    =========================== */
 
 // ── 图标 & 背景 配置 ────────────────────────────────────────
@@ -135,6 +135,7 @@ const SEARCH_CATEGORIES = [
 let currentCategoryId = 'engine';
 let currentEngine     = SEARCH_CATEGORIES[0].engines[0];
 let enginePanelOpen   = false;
+let isDeleteMode      = false;
 
 /* ── 工具 ── */
 function getDomain(url) {
@@ -153,7 +154,6 @@ function renderSearchTabs() {
     btn.innerHTML = `<span class="tab-icon">${cat.icon}</span><span class="tab-label">${cat.label}</span>`;
     btn.onclick = () => {
       selectCategory(cat.id);
-      // 切换分类时若面板已开，刷新内容
       if (enginePanelOpen) renderEnginePanel();
     };
     tabsEl.appendChild(btn);
@@ -182,11 +182,11 @@ function selectCategory(catId) {
 function selectEngine(engine) {
   currentEngine = engine;
   updateSearchBoxEngine();
-  renderEnginePanel(); // 刷新高亮
+  renderEnginePanel();
   document.getElementById('searchInput').focus();
 }
 
-/* ── 渲染内联引擎面板（只显示当前分类） ── */
+/* ── 渲染内联引擎面板 ── */
 function renderEnginePanel() {
   const panel = document.getElementById('enginePanel');
   panel.innerHTML = '';
@@ -315,10 +315,23 @@ function renderCards(sections) {
       a.className    = 'card';
       a.dataset.desc = item['data-desc'] ?? item.desc ?? '';
       a.rel          = 'noopener noreferrer';
+      a.style.position = 'relative';
       if (item.intranet) {
         a.dataset.url      = item.url;
         a.dataset.intranet = item.intranet;
       }
+
+      // 删除标记按钮
+      const delBadge = document.createElement('span');
+      delBadge.className = 'delete-card-badge';
+      delBadge.textContent = '✕';
+      delBadge.title = `删除 ${item.title}`;
+      delBadge.onclick = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        handleDeleteItem(section, item.url, item.title);
+      };
+      a.appendChild(delBadge);
 
       const img = document.createElement('img');
       img.className = 'favicon';
@@ -401,6 +414,137 @@ function changeBackground() {
   document.getElementById('bgLayer').style.backgroundImage = `url('${url}')`;
 }
 
+// ── 网址增删 & 记住密码管理模块 ─────────────────────────────
+function getPassword() {
+  return localStorage.getItem('NAV_ADMIN_PWD') || '';
+}
+
+function initAdminFeature() {
+  const adminBtn = document.getElementById('adminBtn');
+  const adminModal = document.getElementById('adminModal');
+  const closeModalBtn = document.getElementById('closeModalBtn');
+  const saveLinkBtn = document.getElementById('saveLinkBtn');
+  const pwdContainer = document.getElementById('pwdContainer');
+  const pwdInput = document.getElementById('adminPasswordInput');
+  const resetPwdBtn = document.getElementById('resetPwdBtn');
+  const toggleDeleteBtn = document.getElementById('toggleDeleteModeBtn');
+
+  function checkPasswordUI() {
+    const saved = getPassword();
+    if (saved) {
+      pwdInput.value = saved;
+      pwdContainer.style.display = 'none';
+    } else {
+      pwdContainer.style.display = 'block';
+    }
+  }
+
+  if (adminBtn) {
+    adminBtn.onclick = () => {
+      checkPasswordUI();
+      adminModal.style.display = 'flex';
+    };
+  }
+
+  if (closeModalBtn) {
+    closeModalBtn.onclick = () => { adminModal.style.display = 'none'; };
+  }
+
+  if (resetPwdBtn) {
+    resetPwdBtn.onclick = () => {
+      localStorage.removeItem('NAV_ADMIN_PWD');
+      pwdInput.value = '';
+      pwdContainer.style.display = 'block';
+      alert('已清除记住的密码，下次操作需重新输入！');
+    };
+  }
+
+  // 切换删除模式
+  if (toggleDeleteBtn) {
+    toggleDeleteBtn.onclick = () => {
+      isDeleteMode = !isDeleteMode;
+      document.body.classList.toggle('delete-mode', isDeleteMode);
+      toggleDeleteBtn.textContent = isDeleteMode ? '✅ 退出删除' : '🗑️ 删除模式';
+      if (isDeleteMode) adminModal.style.display = 'none';
+    };
+  }
+
+  // 保存新增链接
+  if (saveLinkBtn) {
+    saveLinkBtn.onclick = async () => {
+      const password = pwdInput.value.trim();
+      const section = document.getElementById('addSection').value.trim();
+      const title = document.getElementById('addTitle').value.trim();
+      const url = document.getElementById('addUrl').value.trim();
+      const intranet = document.getElementById('addIntranet').value.trim();
+      const desc = document.getElementById('addDesc').value.trim();
+
+      if (!password) { alert('请输入管理密码！'); return; }
+      if (!section || !title || !url) { alert('请填写分类名称、网站名称和外网链接！'); return; }
+
+      saveLinkBtn.innerText = '提交中...';
+      saveLinkBtn.disabled = true;
+
+      try {
+        const res = await fetch('/api/links', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ password, action: 'add', section, title, url, intranet, desc })
+        });
+
+        const result = await res.json();
+        if (res.ok && result.success) {
+          localStorage.setItem('NAV_ADMIN_PWD', password);
+          alert('✅ 添加成功！后台已自动同步至 GitHub，稍后重新部署生效。');
+          adminModal.style.display = 'none';
+          location.reload();
+        } else {
+          alert('❌ 保存失败: ' + (result.error || '未知错误'));
+          if (result.error && result.error.includes('密码')) {
+            localStorage.removeItem('NAV_ADMIN_PWD');
+            checkPasswordUI();
+          }
+        }
+      } catch (e) {
+        alert('❌ 网络请求出错: ' + e.message);
+      } finally {
+        saveLinkBtn.innerText = '保存并发布';
+        saveLinkBtn.disabled = false;
+      }
+    };
+  }
+}
+
+// 删除链接操作
+async function handleDeleteItem(section, url, title) {
+  let password = getPassword();
+  if (!password) {
+    password = prompt(`请输入管理密码以确认删除【${title}】：`);
+    if (!password) return;
+  } else {
+    if (!confirm(`确定要删除网站【${title}】吗？`)) return;
+  }
+
+  try {
+    const res = await fetch('/api/links', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password, action: 'delete', section, url })
+    });
+    const result = await res.json();
+    if (res.ok && result.success) {
+      localStorage.setItem('NAV_ADMIN_PWD', password);
+      alert(`✅ 已成功删除【${title}】！`);
+      location.reload();
+    } else {
+      alert('❌ 删除失败: ' + (result.error || '未知错误'));
+    }
+  } catch (e) {
+    alert('❌ 请求失败: ' + e.message);
+  }
+}
+window.handleDeleteItem = handleDeleteItem;
+
 /* ── 入口 ── */
 document.addEventListener('DOMContentLoaded', async () => {
   changeBackground();
@@ -410,6 +554,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   injectNetToggleBtn();
   updateNetToggleBtn();
+  initAdminFeature();
 
   // 引擎触发器点击
   document.getElementById('engineTrigger').addEventListener('click', () => {
