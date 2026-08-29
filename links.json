@@ -229,7 +229,8 @@
         "url": "https://obf.eooce.com/",
         "desc": "py混淆",
         "data-desc": "混淆工具"
-      },{
+      },
+      {
         "title": "cron-job",
         "url": "https://console.cron-job.org/",
         "desc": "外部触发",
@@ -431,6 +432,11 @@
         "url": "https://panel.plugged.host/",
         "desc": "容器",
         "data-desc": "免费节点容器"
+      },
+      {
+        "title": "voidnodes",
+        "url": "https://control.voidnodes.xyz/",
+        "desc": "免费容器"
       }
     ]
   },
