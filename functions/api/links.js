@@ -23,7 +23,7 @@ export async function onRequest(context) {
     const token = env.GH_TOKEN;
     const correctPassword = env.ADMIN_PASSWORD;
 
-    // 校验自定义密码
+    // 1. 校验管理密码
     if (!body.password || body.password !== correctPassword) {
       return new Response(JSON.stringify({ success: false, error: "管理密码错误！" }), {
         status: 403,
@@ -31,7 +31,14 @@ export async function onRequest(context) {
       });
     }
 
-    // 从 GitHub 获取当前 links.json 内容和 sha
+    // 2. 如果仅仅是验证密码请求（action: verify），直接返回成功
+    if (body.action === "verify") {
+      return new Response(JSON.stringify({ success: true, message: "密码正确" }), {
+        headers: { "Content-Type": "application/json" }
+      });
+    }
+
+    // 3. 从 GitHub 获取当前 links.json 内容和 sha
     const getRes = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/${FILE_PATH}`, {
       headers: {
         "Authorization": `token ${token}`,
@@ -41,13 +48,13 @@ export async function onRequest(context) {
     });
 
     if (!getRes.ok) {
-      return new Response(JSON.stringify({ success: false, error: "读取 GitHub 仓库 links.json 失败，请检查 GH_TOKEN 配置" }), { status: 500 });
+      return new Response(JSON.stringify({ success: false, error: "读取 GitHub 仓库 links.json 失败，请检查 GH_TOKEN 权限" }), { status: 500 });
     }
 
     const fileData = await getRes.json();
     let currentContent = JSON.parse(decodeURIComponent(escape(atob(fileData.content))));
 
-    // 执行删除或添加
+    // 4. 执行删除或添加
     if (body.action === "delete") {
       const { section, url } = body;
       const targetSec = currentContent.find(s => s.section === section);
@@ -67,7 +74,7 @@ export async function onRequest(context) {
       targetSec.items.push(newItem);
     }
 
-    // 提交回 GitHub
+    // 5. 提交回 GitHub
     const updatedBase64 = btoa(unescape(encodeURIComponent(JSON.stringify(currentContent, null, 2))));
     const commitMsg = body.action === "delete" ? `Delete link via Web Admin` : `Add ${body.title} via Web Admin`;
 
