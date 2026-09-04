@@ -422,12 +422,6 @@
         "data-desc": "免费节点容器"
       },
       {
-        "title": "plugged",
-        "url": "https://panel.plugged.host/",
-        "desc": "容器",
-        "data-desc": "免费节点容器"
-      },
-      {
         "title": "voidnodes",
         "url": "https://control.voidnodes.xyz/",
         "desc": "免费容器"
