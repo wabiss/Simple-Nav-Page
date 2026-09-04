@@ -423,6 +423,11 @@
         "title": "deployhatch",
         "url": "https://deployhatch.com/dashboard",
         "desc": "容器"
+      },
+      {
+        "title": "latvi",
+        "url": "https://panel.latvi.space/server",
+        "desc": "容器"
       }
     ]
   },
