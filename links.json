@@ -421,6 +421,11 @@
         "title": "ravenhost",
         "url": "https://ravenhost.space/dashboard",
         "desc": "容器"
+      },
+      {
+        "title": "velohost",
+        "url": "https://velohost.xyz/servers",
+        "desc": "容器"
       }
     ]
   },
