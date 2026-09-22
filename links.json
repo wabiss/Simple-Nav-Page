@@ -426,6 +426,11 @@
         "title": "velohost",
         "url": "https://velohost.xyz/servers",
         "desc": "容器"
+      },
+      {
+        "title": "openchunk",
+        "url": "https://panel.openchunk.pl/serwer/27802",
+        "desc": "容器"
       }
     ]
   },
