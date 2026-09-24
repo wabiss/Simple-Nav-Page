@@ -431,6 +431,11 @@
         "title": "openchunk",
         "url": "https://panel.openchunk.pl/serwer/27802",
         "desc": "容器"
+      },
+      {
+        "title": "ezhost",
+        "url": "https://panel.ezhost.pl/server/f01643d7",
+        "desc": "容器"
       }
     ]
   },
